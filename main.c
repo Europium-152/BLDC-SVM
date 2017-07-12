@@ -12,15 +12,21 @@ int main(void) {
     
     PWM_init();
     
+    while(1);
     
     return 0;
 }
 void PWM_init(){
 
-    PTCONbits.PTMOD=0b10;
-    PTPERbits.PTPER=32700; //max 32767
-    PDC1=32700/2;
-    PDC2=32700/2;
-    PDC3=PDC1;
+    PTCONbits.PTMOD=0b10;  //Working mode up-down counting 0b10
+    PTCONbits.PTCKPS=0b01; //Source-Timer Prescaler (0,1,2,3) (1:1, 1:4, 1:16, 1:64)
+    PTPER=1000; //max 32767
+    PTMR=0;     //Set the timer to incial value 0
+    PDC1=500*2; //PDC is double of duty-cycle
+    //PDC2=32700/4;
+    //PDC3=PDC1;
+    PWMCON1bits.PEN1H=1;
+    
+    PTCONbits.PTEN=1;
     
 }
