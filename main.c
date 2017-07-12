@@ -12,6 +12,43 @@ int main(void) {
     
     PWM_init();
     
+    //    switch(setor){
+//        case 1:
+//            //Phase R duty cycle T0/2
+//            //Phase Y duty cycle T0/2+TA
+//            //Phase B duty cycle TS-T0/2
+//            break;
+//        case 2:    
+//            //Phase R duty cycle T0/2+TB
+//            //Phase Y duty cycle T0/2
+//            //Phase B duty cycle TS-T0/2    
+//            break;
+//        case 3:
+//            //Phase R duty cycle TS-T0/2
+//            //Phase Y duty cycle T0/2
+//            //Phase B duty cycle T0/2+TA
+//            break;
+//        case 4:
+//            //Phase R duty cycle TS-T0/2
+//            //Phase Y duty cycle T0/2+TB
+//            //Phase B duty cycle T0/2
+//            break;
+//        case 5:
+//            //Phase R duty cycle T0/2+TA
+//            //Phase Y duty cycle TS-T0/2
+//            //Phase B duty cycle T0/2
+//            break;
+//        case 6:   
+//            //Phase R duty cycle T0/2
+//            //Phase Y duty cycle TS-T0/2
+//            //Phase B duty cycle T0/2+TB
+//            break;
+//        default:
+//            return -1;
+                    
+            
+ //   }
+    
     while(1);
     
     return 0;
