@@ -12,3 +12,11 @@
 #pragma config WDT=WDT_OFF
 #pragma config MCLRE=MCLR_EN
 #pragma config FPWRT=PWRT_OFF
+
+
+void __attribute__((interrupt, auto_psv)) _PWMInterrupt( void )               
+{
+    //your code here
+    IFS2bits.PWMIF = 0;
+}
+
