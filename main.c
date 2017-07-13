@@ -1,3 +1,4 @@
+
 #define FCY 29491200L
 
 #define MY_PTPER 818
@@ -22,7 +23,7 @@
 #pragma config MCLRE=MCLR_EN
 #pragma config FPWRT=PWRT_OFF
 
-int g_ang=0, g_setor=0;
+int g_ang=0, g_setor=1;
 
 int tab[20] = {0, 43, 86, 128, 170, 212, 253, 293, 333, 371, 409, 446, 481, 515, 547, 578, 608, 636, 662, 686};
 
@@ -48,7 +49,7 @@ int main(void) {
 void PWM_init(){
 
     PTCONbits.PTMOD=0b10;  //Working mode up-down counting 0b10
-    PTCONbits.PTCKPS=0b00; //Source-Timer Prescaler (0,1,2,3) (1:1, 1:4, 1:16, 1:64)
+    PTCONbits.PTCKPS=0b10; //Source-Timer Prescaler (0,1,2,3) (1:1, 1:4, 1:16, 1:64)
     PTPER=818;             //max 32767
     PTMR=0;                //Set the timer to initial value 0
     PDC1=PTPER;            //if PDC is PTPER dc=50%, PDC is double of duty-cycle
@@ -71,7 +72,7 @@ void PWM_init(){
     _LATE4 = 1;        
     
     IEC2bits.PWMIE=1;      //Interrupt Enable, Flag is IFS2bits.PWMIF
-    
+    IFS2bits.PWMIF = 0; //Clear Interrupt Flag
     
     PTCONbits.PTEN=1;      //Enable PWM at end of Initiation routine
     
@@ -82,7 +83,7 @@ void __attribute__((interrupt, auto_psv)) _PWMInterrupt( void )
     //your code here
     IFS2bits.PWMIF = 0; //Clear Interrupt Flag
     static int i=0;
-    if(i==3)
+    if(i==350)
     { //Update PDC code
         setPDC(g_setor,g_ang);
         g_ang++;
@@ -136,7 +137,7 @@ void setPDC(int setor, int angB) {
 				PDC3 = 2*MY_PTPER - t02;//Phase B duty cycle T0/2
 	            break;
 	        case 5:
-				PDC1 = t02 + tA;//Phase R duty cycle T0/2+TA
+				PDC1 = t02 + tB;//Phase R duty cycle T0/2+TA
 				PDC2 = t02;//Phase Y duty cycle TS-T0/2
 				PDC3 = 2*MY_PTPER - t02;//Phase B duty cycle T0/2
 	            break;
