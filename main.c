@@ -1,4 +1,5 @@
 
+
 #define FCY 29491200L
 
 #define MY_PTPER 818          //max 32767
@@ -28,7 +29,7 @@
 //Global Variables
 int g_ang=0,           //Converted angle, stores the angle in units of its resolution, 
                        //Working with 128 resolution, the total 360 circle is 128*60=7680 units long
-    g_atCount=3,       //Actualization count g_atCount=x means duty cycles get actualized every 3 PWM periods
+    g_atCount=1000,       //Actualization count g_atCount=x means duty cycles get actualized every 3 PWM periods
     g_angIncrement=1,  //angle increment step Magnetic Fiel freq. is FPWM/atCount*(angIncrement/7680)    
     g_sector=0,        //circle sector 0 to 5
     g_m=2;             //VDC divisor, g_m=x means max tension is equal to V_unreg/x
@@ -94,14 +95,14 @@ void __attribute__((interrupt, auto_psv)) _PWMInterrupt( void )
     //your code here
     IFS2bits.PWMIF = 0; //Clear Interrupt Flag
     static int i=0;
-    static int tempAng=0;
+    
     
     if(i==g_atCount)
     { //Update PDC code
-        tempAng=g_ang+g_angIncrement;
         setPDC(g_sector,g_ang);
-        g_ang=tempAng%ANGLE_RESOLUTION;
-        g_sector=(g_sector+tempAng/ANGLE_RESOLUTION)%6;     
+        g_sector=(g_sector+(g_ang+g_angIncrement)/ANGLE_RESOLUTION)%6;        
+        g_ang=(g_ang+g_angIncrement)%ANGLE_RESOLUTION;
+             
         
        _LATF0=(!_LATF0); //Every g_atCount interrupts toggle F0 bit, which connects to LED D6
        i=0;
