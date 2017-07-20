@@ -1,18 +1,17 @@
-
 #define FCY 29491200L
 
 #define MY_PTPER 589          //max 32767
 #define LAST_TABLE_INDEX 127
 #define ANGLE_RESOLUTION 128
 #define PR2_INITIAL_VALUE 65000
-#define PR2_FINAL_VALUE 639
+#define PR2_FINAL_VALUE 1535
 
 #define MY_PR3 30000
 #define INVERSE_FACTOR 4718430.
 #define NEXT_INVERSE_FACTOR 301980000.
-#define ACELERACAO 1.8 //Aceleracao do campo girante em  Hz/s
+#define ACELERACAO 2 //Aceleracao do campo girante em  Hz/s
 
-#define GM_FIRST_JUMP 10
+#define GM_FIRST_JUMP 6
 #define GM_SECOND_JUMP 6
 
 /* Include List */
@@ -192,7 +191,7 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void){
 
     
 
-        if(g_truePR2<PR2_FINAL_VALUE)
+        if(g_truePR2<PR2_FINAL_VALUE && !prescaler_update)
     {
         _T3IE = 0; //Disable aceleration
         _LATF1=!_LATF1;
